@@ -18,35 +18,46 @@ function reducer(state, action) {
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // ---- Charger la liste des programmes ----
-  useEffect(() => {
-    let mounted = true;
-    const API_URL =
-      "https://webhook.time1.io/webhook/080de059-8676-4214-88dd-40e930782d34";
+// ---- Charger la liste des programmes ----
+useEffect(() => {
+  let mounted = true;
+  const API_URL =
+    "https://webhook.time1.io/webhook/080de059-8676-4214-88dd-40e930782d34";
+  const TOKEN = "T1-SECURE-ABC123"; // même secret que dans ton n8n
 
-    fetch(API_URL)
-      .then((res) => {
-        if (!res.ok) throw new Error("Erreur HTTP " + res.status);
-        return res.json();
-      })
-      .then((json) => {
-        const programsArray = Array.isArray(json)
-          ? json
-          : Array.isArray(json.programs)
-          ? json.programs
-          : [];
-        if (mounted) dispatch({ type: "programs", payload: programsArray });
-      })
-      .catch((err) => {
-        console.error("Erreur JSON:", err);
-        alert("⚠️ Impossible de charger les programmes.");
-      })
-      .finally(() => {
-        if (mounted) dispatch({ type: "loading", payload: false });
+  async function fetchPrograms() {
+    try {
+      const response = await fetch(`${API_URL}?token=${TOKEN}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": TOKEN,
+        },
       });
 
-    return () => (mounted = false);
-  }, []);
+      if (!response.ok) throw new Error("Erreur HTTP " + response.status);
+
+      const json = await response.json();
+
+      const programsArray = Array.isArray(json)
+        ? json
+        : Array.isArray(json.programs)
+        ? json.programs
+        : [];
+
+      if (mounted) dispatch({ type: "programs", payload: programsArray });
+    } catch (err) {
+      console.error("❌ Erreur JSON:", err);
+      alert("⚠️ Impossible de charger les programmes : " + err.message);
+    } finally {
+      if (mounted) dispatch({ type: "loading", payload: false });
+    }
+  }
+
+  fetchPrograms();
+  return () => (mounted = false);
+}, []);
+
 
   // ---- Remplacement automatique des liens ----
   const buildTrackedText = () => {
