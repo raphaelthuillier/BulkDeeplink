@@ -64,9 +64,16 @@ export default function App() {
       return;
     }
 
-    const urlRegex = /(https?:\/\/[^\s<>"']+\.[^\s<>"']+)(?![^<]*>)/gi;
+    // Détection de tout type de lien (avec ou sans protocole)
+    const urlRegex =
+      /((https?:\/\/)?[a-z0-9\-._~%]+(\.[a-z0-9\-._~%]+)+[^\s<>"']*)/gi;
+
     const tracked = text.replace(urlRegex, (url) => {
-      const encoded = encodeURIComponent(url);
+      if (!/[a-z]+\.[a-z]+/i.test(url)) return url; // pas un domaine
+      if (/timeone|publicidees|time1/i.test(url)) return url; // déjà PI/TimeOne
+
+      const fullUrl = url.startsWith("http") ? url : `https://${url}`;
+      const encoded = encodeURIComponent(fullUrl);
       return `https://tracking.publicidees.com/clic.php?progid=${progid}&partid=${partid}&dpl=${encoded}`;
     });
 
@@ -84,18 +91,15 @@ export default function App() {
       <p style={{ textAlign: "center" }}>⏳ Chargement des programmes...</p>
     );
 
-  // ---- Interface complète ----
+  // ---- Interface ----
   return (
     <>
-      {/* Barre supérieure */}
       <div className="top-bar">
         <h1>🔗 Remplacement des liens trackés</h1>
-        <div></div>
       </div>
 
-      {/* Zone principale : deux panneaux */}
       <div className="app-layout">
-        {/* Colonne gauche : texte source */}
+        {/* Colonne gauche */}
         <div className="panel">
           <h2>📝 Texte source</h2>
 
@@ -138,7 +142,7 @@ export default function App() {
               dispatch({ type: "sourceText", payload: e.target.value })
             }
             placeholder={
-              "Collez ici votre texte contenant des liens à remplacer.\n\nExemple :\nDécouvrez nos offres sur https://www.fnac.com ou https://www.auchan.fr."
+              "Collez ici votre texte contenant des liens à remplacer.\n\nExemple :\nDécouvrez nos offres sur www.fnac.com ou auchan.fr."
             }
           />
 
@@ -152,7 +156,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Colonne droite : texte final */}
+        {/* Colonne droite */}
         <div className="panel">
           <h2>✅ Texte final</h2>
           <textarea
