@@ -1,20 +1,37 @@
+/* ===========================================================
+   ISOSKELE • STYLE.CSS — VERSION UNIFIÉE 2.1
+   Charte graphique mai 2023 — Rose, Noir, Turquoise
+   =========================================================== */
+
+/* --- Variables globales --- */
+:root {
+  --rose: #e83c68;
+  --turquoise: #1aa6a6;
+  --noir: #000000;
+  --blanc: #ffffff;
+  --radius: 8px;
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
 /* --- Structure globale --- */
-body,
-html {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: "Montserrat", sans-serif;
-  background: #f7f7f7;
-  color: #0a1240;
+  font-weight: 500;
+  background: #f8f8f8;
+  color: var(--noir);
   overflow: hidden;
+  text-transform: none;
 }
 
 /* --- Barre supérieure --- */
 .top-bar {
   height: 60px;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  background: var(--blanc);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,28 +43,22 @@ html {
   right: 0;
   z-index: 100;
 }
-
 .top-bar h1 {
   font-size: 18px;
-  color: #e85d1f;
+  color: var(--rose);
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  text-transform: lowercase;
 }
-
 .top-bar button {
-  background: #e85d1f;
-  color: #fff;
+  background: var(--rose);
+  color: var(--blanc);
   border: none;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius);
   cursor: pointer;
   font-weight: 600;
-  margin-left: 10px;
   transition: all 0.2s ease;
 }
-
 .top-bar button:hover {
   opacity: 0.9;
   transform: translateY(-1px);
@@ -61,109 +72,292 @@ html {
   width: 100%;
   margin-top: 60px;
 }
-
-/* --- Panneaux gauche/droite --- */
 .panel {
   flex: 1;
   padding: 25px 40px;
   overflow-y: auto;
-  background: #fff;
+  background: var(--blanc);
   border-right: 1px solid #eee;
 }
-
 .panel:last-child {
   border-right: none;
 }
-
-/* --- Titres internes --- */
 .panel h2 {
   font-size: 18px;
-  color: #e85d1f;
+  color: var(--rose);
   margin-bottom: 15px;
-}
-
-/* --- Sélecteurs et champs --- */
-label {
-  display: block;
-  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 6px;
-  color: #0a1240;
+  text-transform: lowercase;
 }
 
-input[type="text"],
+/* --- Formulaires --- */
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--noir);
+  display: inline-block;
+  margin-bottom: 4px;
+}
+input,
+select,
 textarea {
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--noir);
+  background-color: var(--blanc);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   width: 100%;
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
   box-sizing: border-box;
-  transition: all 0.2s ease;
 }
-
-input[type="text"]:focus,
+input:focus,
+select:focus,
 textarea:focus {
   outline: none;
-  border-color: #e85d1f;
-  box-shadow: 0 0 0 2px rgba(232, 93, 31, 0.2);
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(232, 60, 104, 0.2);
 }
-
+input[disabled],
+select[disabled],
+textarea[disabled] {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.5);
+  cursor: not-allowed;
+}
 textarea {
-  min-height: 200px;
+  min-height: 180px;
   resize: vertical;
 }
-
-/* --- Boutons principaux --- */
-button.action {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #fff;
-  background: #e85d1f;
-  margin-right: 10px;
-}
-
-button.action.secondary {
-  background: #0a1240;
-}
-
-button.action:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-/* --- Texte final readonly --- */
 textarea[readonly] {
   background: #f5f5f5;
   color: #444;
 }
 
-/* --- React-select harmonisé --- */
-.react-select__control {
-  border-radius: 8px !important;
-  border-color: #ccc !important;
-  min-height: 40px !important;
+/* --- Boutons --- */
+button,
+.btn {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-primary {
+  background: var(--rose);
+  color: var(--blanc);
+}
+.btn-secondary {
+  background: var(--turquoise);
+  color: var(--blanc);
+}
+.btn-dark {
+  background: var(--noir);
+  color: var(--blanc);
+}
+button:hover,
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-.react-select__control--is-focused {
-  border-color: #e85d1f !important;
-  box-shadow: 0 0 0 2px rgba(232, 93, 31, 0.2) !important;
+/* --- Checkboxes / Radios / Switch --- */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--rose);
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 20px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 999px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--blanc);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.switch input:checked + .slider {
+  background-color: var(--rose);
+}
+.switch input:checked + .slider:before {
+  transform: translateX(18px);
 }
 
-.react-select__single-value {
-  color: #0a1240 !important;
+/* --- Tables --- */
+table {
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  width: 100%;
+}
+th,
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+thead th {
+  font-weight: 600;
+  color: var(--noir);
+  text-transform: lowercase;
+}
+.table-hover tbody tr:hover {
+  background: rgba(232, 60, 104, 0.06);
+  transition: background 0.2s ease;
+}
+.table-striped tbody tr:nth-child(odd) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* --- Alertes --- */
+.alert {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
   font-weight: 500;
 }
+.alert-info {
+  background: rgba(26, 166, 166, 0.12);
+  color: var(--turquoise);
+  border-left: 4px solid var(--turquoise);
+}
+.alert-success {
+  background: rgba(26, 166, 166, 0.12);
+  color: var(--turquoise);
+  border-left: 4px solid var(--turquoise);
+}
+.alert-warning,
+.alert-error {
+  background: rgba(232, 60, 104, 0.12);
+  color: var(--rose);
+  border-left: 4px solid var(--rose);
+}
 
-.react-select__menu {
-  border-radius: 8px !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+/* --- Tags --- */
+.tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--noir);
+}
+.tag-rose {
+  background: rgba(232, 60, 104, 0.1);
+  color: var(--rose);
+}
+.tag-turquoise {
+  background: rgba(26, 166, 166, 0.1);
+  color: var(--turquoise);
+}
+
+/* --- Navigation / Pagination --- */
+.nav-tabs a {
+  display: inline-block;
+  padding: 10px 16px;
+  font-weight: 600;
+  color: var(--noir);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.nav-tabs a:hover {
+  color: var(--rose);
+}
+.nav-tabs a.active {
+  color: var(--rose);
+  border-bottom-color: var(--rose);
+}
+.pagination a {
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--noir);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.pagination a:hover {
+  background: rgba(232, 60, 104, 0.08);
+  color: var(--rose);
+}
+.pagination a.active {
+  background: var(--rose);
+  color: var(--blanc);
+  border-color: var(--rose);
+}
+
+/* --- Modales / Toasts --- */
+.modal {
+  background: var(--blanc);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  color: var(--noir);
+}
+.toast {
+  background: var(--rose);
+  color: var(--blanc);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.95;
+  animation: fadeIn 0.3s ease;
+}
+.toast-info {
+  background: var(--turquoise);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 0.95;
+    transform: translateY(0);
+  }
+}
+
+/* --- Utilitaires --- */
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-muted {
+  color: rgba(0, 0, 0, 0.6);
+}
+.hidden {
+  display: none !important;
 }
 
 /* --- Responsive --- */
